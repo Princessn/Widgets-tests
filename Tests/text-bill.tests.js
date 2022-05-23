@@ -1,7 +1,7 @@
-describe('Text bill function', function(){
+escribe('Text bill factory function', function(){
 
     it('It should be able to make 1 call', function(){
-       let textBill = billTotal(); 
+       let textBill = calculateBill(); 
 
        textBill.checkCall('call');
        textBill.makeCall();

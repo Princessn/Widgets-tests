@@ -1,30 +1,65 @@
-const billTypeText = document.querySelector('.billTypeText')
-const addToBillButton = document.querySelector('.addToBillBtn')
-const callsTotalElem = document.querySelector('.callTotalOne')
-const smsTotalElem = document.querySelector('.smsTotalOne')
-const textBillTotal = document.querySelector(".totalOne");
-const colorChange = document.querySelector('.red');
-var callsTotal= 0;
-var smsTotal= 0;
+function calculateBill(){
+    let amountOfCall = 2.75;
+    let amountOfSms = 0.65;
+    let CallString = '';
+    let SmsString = '';
+    let theTotalSms = 0;
+    let theTotalCall = 0;
+    let warningLevel = 30;
+    let criticalLevel = 50;
 
-function billTotal(){
-    var billTypeEntered = billTypeText.value.trim().toLowerCase();
-    if (billTypeEntered === "call"){
-        callsTotal += 2.75
-    }
-    else if (billTypeEntered === "sms"){
-        smsTotal += 0.75;
-    }
-    callsTotalElem.innerHTML = callsTotal.toFixed(2);
-    smsTotalElem.innerHTML = smsTotal.toFixed(2);
-    var totalCost = callsTotal + smsTotal;
-    textBillTotal.innerHTML = totalCost.toFixed(2);
+function checkCall(aCall){
+  if(aCall === 'call'){
+    CallString = aCall;
+  }
+}
 
-    if (totalCost >= 50){
-        colorChange.classList.add("danger");
-    }
-    else if (totalCost >= 30){
-        colorChange.classList.add("warning");
+function checkSms(theSms){
+   if(theSms === 'sms'){
+        SmsString = theSms; 
     }
 }
-addToBillButton.addEventListener('click', billTotal);
+
+    function getCall(){
+        return theTotalCall;
+    }
+
+    function getSms(){
+        return theTotalSms;
+    }
+
+    function makeCall(){
+        if(CallString === 'call'){
+            theTotalCall += amountOfCall;
+        }
+    }
+
+    function smsSent(){
+        if(SmsString === 'sms'){
+            theTotalSms += amountOfSms;
+        }
+    }
+
+   function getTheTotal(){
+      return theTotalCall + theTotalSms;
+   }
+
+   function theLevels(){
+       if(getTheTotal() >= criticalLevel){
+           return 'critical';
+       }
+       if(getTheTotal() >= warningLevel){
+           return 'warning'
+       }
+   }
+    return {
+        checkCall,
+        checkSms,
+        getCall,
+        getSms,
+        makeCall,
+        smsSent,
+        getTheTotal,
+        theLevels
+    }
+}

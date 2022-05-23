@@ -1,111 +1,103 @@
-describe("The radio-bill factory function", function () {
-    it("should be able to send 2 sms's and update the total sms cost and the bill total", function () {
-      let radioBill = billWithRadio();
-  
-      radioBill.sendSms();
-      radioBill.sendSms();
-  
-      assert.equal(1.5, radioBill.smsTotalCost());
-      assert.equal(0.0, radioBill.callTotalCost());
-      assert.equal(1.5, radioBill.billTotalCost());
-    });
-    it("should be able to send 3 sms's and update the total sms cost and the bill total", function () {
-      let radioBill = billWithRadio();
-  
-      radioBill.sendSms();
-      radioBill.sendSms();
-      radioBill.sendSms();
-  
-      assert.equal(2.25, radioBill.smsTotalCost());
-      assert.equal(0.0, radioBill.callTotalCost());
-      assert.equal(2.25, radioBill.billTotalCost());
-    });
-  
-    it("should be able to make 2 calls and update the total call cost and the bill total", function () {
-      let radioBill = billWithRadio();
-  
-      radioBill.makeCall();
-      radioBill.makeCall();
-  
-      assert.equal(0.0, radioBill.smsTotalCost());
-      assert.equal(5.5, radioBill.callTotalCost());
-      assert.equal(5.5, radioBill.billTotalCost());
-    });
-  
-    it("should be able to make 3 calls and update the total call cost and the bill total", function () {
-      let radioBill = billWithRadio();
-  
-      radioBill.makeCall();
-      radioBill.makeCall();
-      radioBill.makeCall();
-  
-      assert.equal(0.0, radioBill.smsTotalCost());
-      assert.equal(8.25, radioBill.callTotalCost());
-      assert.equal(8.25, radioBill.billTotalCost());
-    });
-  
-    it("should be able to make 2 calls, send 2 sms's, update the total call cost, sms cost and the bill total", function () {
-      let radioBill = billWithRadio();
-  
-      radioBill.makeCall();
-      radioBill.makeCall();
-      radioBill.sendSms();
-      radioBill.sendSms();
-  
-      assert.equal(1.5, radioBill.smsTotalCost());
-      assert.equal(5.5, radioBill.callTotalCost());
-      assert.equal(7.0, radioBill.billTotalCost());
-    });
-    describe("Warning & Critical levels", function () {
-      it("should return a class Name of 'warning' when warning level is reached", function () {
-        let radioBill = billWithRadio();
-  
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-  
-        assert.equal(0.0, radioBill.smsTotalCost());
-        assert.equal(33.0, radioBill.callTotalCost());
-        assert.equal(33.0, radioBill.billTotalCost());
-        assert.equal("warning", radioBill.getClassName());
-      });
-      it("should return a class Name of 'critical' when critical level is reached", function () {
-        let radioBill = billWithRadio();
-  
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-        radioBill.makeCall();
-  
-        assert.equal(0.0, radioBill.smsTotalCost());
-        assert.equal(55.0, radioBill.callTotalCost());
-        assert.equal(55.0, radioBill.billTotalCost());
-        assert.equal("critical", radioBill.getClassName());
-      });
-    });
+describe('The Radio button widget', function(){
+  it('It should return the total of 3 call made', function(){
+      let aRadioBtn = radioButton();
+
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+
+      assert.equal(8.25, aRadioBtn.getTheCall());
   });
+
+  it('It should return the total of 6 sms sent', function(){
+      let aRadioBtn = radioButton();
+
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+
+      assert.equal(3.90, aRadioBtn.getSms());
+  });
+
+  it('It should return the total of 4 calls made & 4 sms sent', function(){
+      let aRadioBtn = radioButton();
+
+      //Call made
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      //Sms sent
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+
+      assert.equal(2.60, aRadioBtn.getSms());
+      assert.equal(11.00, aRadioBtn.getTheCall());
+      assert.equal(13.60, aRadioBtn.totalOfCallAndSms());
+  });
+
+  it('It should return the warning class if the total has reached 30', function(){
+      let aRadioBtn = radioButton();
+
+      //Call made
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall(); //number 5
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall(); //number 10
+      aRadioBtn.makeCall();
+      //Sms sent
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+
+      assert.equal('warning', aRadioBtn.warningAndCriticalLevel()); // answer is 32,85
+  });
+
+  it('It should return the critical class if the total has reached 50', function(){
+      let aRadioBtn = radioButton();
+
+      //Call made
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall(); //number 5
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall(); //number 10
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall();
+      aRadioBtn.makeCall(); //number 15
+      aRadioBtn.makeCall();
+      //Sms sent
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms(); //number 5
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms();
+      aRadioBtn.sendSms(); //number 10
+      aRadioBtn.sendSms();
+
+      assert.equal('critical', aRadioBtn.warningAndCriticalLevel()); // answer is 32,85
+  });
+});
